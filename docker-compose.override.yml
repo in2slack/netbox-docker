@@ -11,7 +11,7 @@ services:
       retries: 15
   netbox-worker:
     depends_on:
-      - netbox
+    - netbox
     volumes:
     - /mnt/docker/netbox/config:/etc/netbox/config:z,ro
     - /mnt/docker/netbox/netbox-media-files:/opt/netbox/netbox/media:z,rw
@@ -19,7 +19,7 @@ services:
     - /mnt/docker/netbox/netbox-scripts-files:/opt/netbox/netbox/scripts:z,rw
   netbox-housekeeping:
     depends_on:
-      - netbox
+    - netbox
     volumes:
     - /volume1/docker/netbox:/etc/netbox/config:z,ro
     - /mnt/docker/netbox/netbox-media-files:/opt/netbox/netbox/media:z,rw
