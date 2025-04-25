@@ -10,12 +10,16 @@ services:
     healthcheck:
       retries: 15
   netbox-worker:
+    depends_on:
+      - netbox
     volumes:
     - /mnt/docker/netbox/config:/etc/netbox/config:z,ro
     - /mnt/docker/netbox/netbox-media-files:/opt/netbox/netbox/media:z,rw
     - /mnt/docker/netbox/netbox-reports-files:/opt/netbox/netbox/reports:z,rw
     - /mnt/docker/netbox/netbox-scripts-files:/opt/netbox/netbox/scripts:z,rw
   netbox-housekeeping:
+    depends_on:
+      - netbox
     volumes:
     - /volume1/docker/netbox:/etc/netbox/config:z,ro
     - /mnt/docker/netbox/netbox-media-files:/opt/netbox/netbox/media:z,rw
@@ -24,3 +28,22 @@ services:
   postgres:
     volumes:
     - /mnt/docker/netbox/netbox-postgres-data:/var/lib/postgresql/data
+netbox-worker:
+    <<: *netbox
+    depends_on:
+      netbox:
+        condition: service_healthy
+    command:
+      - /opt/netbox/venv/bin/python
+      - /opt/netbox/netbox/manage.py
+      - rqworker
+    healthcheck:
+      test: ps -aux | grep -v grep | grep -q rqworker || exit 1
+      start_period: 20s
+      timeout: 3s
+      interval: 15s
+  netbox-housekeeping:
+    <<: *netbox
+    depends_on:
+      netbox:
+        condition: service_healthy
