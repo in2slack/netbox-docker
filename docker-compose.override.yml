@@ -3,7 +3,7 @@ services:
     ports:
     - 9988:8080
     volumes:
-    - /mnt/docker/netbox/config:/etc/netbox/config:z,ro
+    - /mnt/docker/netbox/configuration:/etc/netbox/config:z,ro
     - /mnt/docker/netbox/netbox-media-files:/opt/netbox/netbox/media:z,rw
     - /mnt/docker/netbox/netbox-reports-files:/opt/netbox/netbox/reports:z,rw
     - /mnt/docker/netbox/netbox-scripts-files:/opt/netbox/netbox/scripts:z,rw
@@ -13,7 +13,7 @@ services:
     depends_on:
     - netbox
     volumes:
-    - /mnt/docker/netbox/config:/etc/netbox/config:z,ro
+    - /mnt/docker/netbox/configuration:/etc/netbox/config:z,ro
     - /mnt/docker/netbox/netbox-media-files:/opt/netbox/netbox/media:z,rw
     - /mnt/docker/netbox/netbox-reports-files:/opt/netbox/netbox/reports:z,rw
     - /mnt/docker/netbox/netbox-scripts-files:/opt/netbox/netbox/scripts:z,rw
