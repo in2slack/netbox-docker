@@ -28,22 +28,3 @@ services:
   postgres:
     volumes:
     - /mnt/docker/netbox/netbox-postgres-data:/var/lib/postgresql/data
-netbox-worker:
-    <<: *netbox
-    depends_on:
-      netbox:
-        condition: service_healthy
-    command:
-      - /opt/netbox/venv/bin/python
-      - /opt/netbox/netbox/manage.py
-      - rqworker
-    healthcheck:
-      test: ps -aux | grep -v grep | grep -q rqworker || exit 1
-      start_period: 20s
-      timeout: 3s
-      interval: 15s
-  netbox-housekeeping:
-    <<: *netbox
-    depends_on:
-      netbox:
-        condition: service_healthy
